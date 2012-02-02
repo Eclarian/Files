@@ -437,6 +437,14 @@ class Files {
 				$CI->config->set_item($item, $value);
 			}
 		}
+		// Route
+		elseif ($this->files_save_like === 'route')
+		{
+			foreach ($data as $item => $value)
+			{
+				$CI->config->set_item($item, $value);
+			}
+		}
 		// The Lang class does not provide a public API, but does expose the property
 		elseif ($this->files_save_like === 'lang')
 		{
@@ -503,6 +511,10 @@ class Files {
 			if ($files_save_like === 'config')
 			{
 				$file .= '$config' . "['$var_name'] = ";
+			}
+			elseif ($files_save_like === 'route')
+			{
+				$file .= '$route' . "['$var_name'] = ";
 			}
 			elseif ($files_save_like === 'lang')
 			{
