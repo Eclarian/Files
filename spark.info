@@ -1,7 +1,7 @@
 name: files
 
 # Files Package Version
-version: 1.0.0
+version: 1.0.1
 
 # CodeIgniter Compatibility
 compatibility: 2.0.3
