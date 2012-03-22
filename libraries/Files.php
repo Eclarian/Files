@@ -11,7 +11,7 @@
  * @author      Eclarian Dev Team
  * @copyright   Eclarian LLC
  * @license		MIT
- * @version     1.0.0
+ * @version     1.0.1
  */
 class Files {
 	
@@ -241,7 +241,10 @@ class Files {
 		}
 		
 		// Return entire data set or by $var_name if isset
-		return (isset($this->loaded_cache[$filename][$var_name])) ? $this->loaded_cache[$filename][$var_name]: $this->loaded_cache[$filename];		
+		// Updated @version 1.0.1 to fix error where it would return partial strings of data
+		return ( ! empty($var_name) && ! is_string($this->loaded_cache[$filename]) && isset($this->loaded_cache[$filename][$var_name])) ? 
+			$this->loaded_cache[$filename][$var_name] :
+			$this->loaded_cache[$filename];		
 	}
 	
 	// -------------------------------------------------------------------------

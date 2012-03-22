@@ -85,3 +85,12 @@ NOTE: If you are saving a language file, the data type must either be a string o
 
 ### $config['files_ext'] = '.php';
 The default extension used to save and read files.
+
+
+## Change Log
+
+**1.0.1**
+ * Fixed bug in the read() method where the cache would return a partial piece of strings (if the value was a string) on occasions when it would read it as isset().
+
+**1.0.0**
+ * Released
