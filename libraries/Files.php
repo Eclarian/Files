@@ -177,6 +177,23 @@ class Files {
 	// -------------------------------------------------------------------------
 	
 	/**
+	 * Exists
+	 * 
+	 * Checks whether the file exists or not using the provided path
+	 * 
+	 * @since	1.1.0
+	 * @param	string	Filename
+	 * @param	boolean	Whether the directory provided is the FULL directory
+	 * @return	boolean
+	 */
+	public function exists($filename, $is_full_path = FALSE)
+	{
+		return (file_exists($this->parse_filename($filename, $is_full_path)));
+	}
+
+	// -------------------------------------------------------------------------
+
+	/**
 	 * Read
 	 * 
 	 * By default, this function will include PHP files to execute as opposed to
@@ -244,12 +261,11 @@ class Files {
 			// This will fetch the contents of the file as a string and return the string.
 			$this->loaded_cache[$filename] = read_file($filename);
 		}
-		
+
 		// Return entire data set or by $var_name if isset
-		// Updated @version 1.0.1 to fix error where it would return partial strings of data
 		return ( ! empty($var_name) && ! is_string($this->loaded_cache[$filename]) && isset($this->loaded_cache[$filename][$var_name])) ? 
 			$this->loaded_cache[$filename][$var_name] :
-			$this->loaded_cache[$filename];		
+			$this->loaded_cache[$filename];
 	}
 	
 	// -------------------------------------------------------------------------
@@ -339,15 +355,17 @@ class Files {
 				{
 					$path[] = $d;
 					$next_path = ($is_full_path === FALSE ? $this->files_path: '') . implode(DIRECTORY_SEPARATOR, $path);
-					if ( ! is_dir($next_path) && ! mkdir($next_path))
+					if ( ! is_dir($next_path) && ! empty($next_path))
 					{
-						log_message('error', "Files::save() - Failed to create directory " . implode(DIRECTORY_SEPARATOR, $path));
-						return FALSE;
+						if (! mkdir($next_path))
+						{
+							log_message('error', "Files::save() - Failed to create directory " . implode(DIRECTORY_SEPARATOR, $path));
+							return FALSE;
+						}
 					}
 				}
 			}
 		}
-		
 		return TRUE;
 	}
 	
