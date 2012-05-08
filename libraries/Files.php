@@ -11,7 +11,7 @@
  * @author      Eclarian Dev Team
  * @copyright   Eclarian LLC
  * @license		MIT
- * @version     1.0.1
+ * @version     1.0.2
  */
 class Files {
 	
@@ -202,7 +202,12 @@ class Files {
 		// Return the values from cache if they exist
 		if (isset($this->loaded_cache[$filename]))
 		{
-			return (isset($this->loaded_cache[$filename][$var_name])) ? $this->loaded_cache[$filename][$var_name]: $this->loaded_cache[$filename];		
+			// @since 1.0.2 - Fixes the issue of PHP returning true from an isset check like the following:
+			// $stupid = "this is an example string";
+			// var_dump(isset($stupid['abc'])); -> THIS IS TRUE!
+			return ( ! empty($var_name) && ! is_string($this->loaded_cache[$filename]) && isset($this->loaded_cache[$filename][$var_name])) ? 
+				$this->loaded_cache[$filename][$var_name] :
+				$this->loaded_cache[$filename];
 		}		
 		
 		// Include and Evaluate defined files
